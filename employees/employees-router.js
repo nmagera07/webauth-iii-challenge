@@ -12,16 +12,16 @@ const jwt = require('jsonwebtoken')
 const secrets = require('../auth/secrets.js')
 
 router.post('/register', (req, res) => {
-    let user = req.body
+    let employee = req.body
 
-    const hash = bcrypt.hashSync(user.password)
-    user.password = hash
+    const hash = bcrypt.hashSync(employee.password)
+    employee.password = hash
 
     Users.add(employee)
         .then(addedEmployee => {
-            const token = generateToken(user)
-                
-            res.status(201).json({addedEmployee, token})
+            const token = generateToken(employee)
+            const added = { id: addedEmployee.id, username: addedEmployee.username, role: addedEmployee.role}
+            res.status(201).json({employee: added, token})
         })
         .catch(error => {
             res.status(500).json({ message: 'Failed to add employee'})
@@ -49,7 +49,14 @@ router.post('/login', (req, res) => {
 router.get('/employees', restricted, (req, res) => {
     Users.find()
         .then(employees => {
-            res.json(employees)
+            const loggedInUser = req.user.username
+            const role = req.user.role
+            const newList = employees.filter(x => {
+                if (x.role === role) {
+                    return x
+                }
+            })
+            res.json(newList)
         })
         .catch(error => {
             res.status(500).json({ message: 'Failed to fetch users'})
@@ -60,6 +67,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
+        role: user.role,
     }
 
     const options = {
