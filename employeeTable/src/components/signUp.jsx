@@ -12,6 +12,12 @@ const SignUp = (props) => {
         }
     })
 
+    const [toggle, setToggle] = useState(false)
+
+    const toggleState = () => {
+        setToggle(!toggle)
+    }
+
     const handleChanges = (e) => {
         setInput({
             form: {
@@ -37,8 +43,36 @@ const SignUp = (props) => {
             })
     }
 
-    return ( 
-        <div>
+    const registerUser = () => {
+        const newUser = {
+            username: input.form.username,
+            password: input.form.password,
+            role: input.form.role
+        }
+        axios
+            .post('http://localhost:5001/register', newUser)
+            .then(response => {
+                localStorage.setItem('token', response.data.token)
+                props.history.push('/employees')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+
+    if (!toggle) {
+        return ( 
+        <div className="login-form">
+             <div className="Login" >
+                <a href="#" style={{ textDecoration: "underline" }}>
+                Login
+                </a>
+                <a href="#" onClick={toggleState}>
+                Register
+                </a>
+                </div>
+            
             <Form>
                 <Form.Field>
                     <input 
@@ -62,7 +96,54 @@ const SignUp = (props) => {
 
             </Form>
         </div>
-     );
+        
+     )
+    } else {
+        return ( 
+        <div className="login-form">
+           <div className="Login">
+          <a href="#" onClick={toggleState}>
+            Login
+          </a>
+          <a href="#" style={{ textDecoration: "underline" }}>
+            Register
+          </a>
+        </div>
+            <Form>
+                <Form.Field>
+                    <input 
+                        placeholder="username" 
+                        type="text"
+                        name="username"
+                        value={input.form.username}
+                        onChange={handleChanges}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <input 
+                        placeholder="password" 
+                        type="password"
+                        name="password"
+                        value={input.form.password}
+                        onChange={handleChanges}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <input 
+                        placeholder="role" 
+                        type="text"
+                        name="role"
+                        value={input.form.role}
+                        onChange={handleChanges}
+                    />
+                </Form.Field>
+            <Button onClick={registerUser}>Register</Button>
+
+            </Form>
+        </div>
+     )
+    }
+    
 }
  
 export default SignUp;

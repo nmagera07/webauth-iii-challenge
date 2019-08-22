@@ -1,33 +1,78 @@
 .App {
   text-align: center;
+  background: rgb(159, 202, 159);
+  height: 1500px;
+}
+.main-body {
+  width: 1000px;
+  margin: 0 auto;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
+  background: rgb(62, 62, 68);
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 75px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.nav-bar a {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-bar button {
+  background: rgb(62, 62, 68);
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.outer-employees {
+  display: flex;
+  justify-content: space-evenly;
+}
+.employees {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 15px;
+}
+
+.secret {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.secret form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.Login {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 20px;
+  margin: 30px;
+}
+
+.Login a {
+  color: white;
+}
+
+.login-form form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.home-page img{
+  height: 400px;
+  width: 600px;
+}
+
+.home-page p {
+  font-size: 18px;
+  margin: 20px;
 }

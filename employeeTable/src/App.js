@@ -11,13 +11,15 @@ import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (
-    <div>
+    <div className="App">
+      <div className="main-body">
       <Router>
         <Route path="/" component={NavBar} />
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={SignUp} />
         <PrivateRoute path="/employees" component={Employees} />
       </Router>
+      </div>
     </div>
   );
 }
