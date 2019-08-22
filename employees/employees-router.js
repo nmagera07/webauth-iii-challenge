@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
     Users.add(employee)
         .then(addedEmployee => {
             const token = generateToken(employee)
-            const added = { id: addedEmployee.id, username: addedEmployee.username, role: addedEmployee.role}
+            const added = { username: addedEmployee.username, role: addedEmployee.role}
             res.status(201).json({employee: added, token})
         })
         .catch(error => {
@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     let { username, password } = req.body
-
+    console.log("login", req.body)
     Users.findBy({ username })
         .first()
         .then(user => {
@@ -47,12 +47,13 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/employees', restricted, (req, res) => {
+    
     Users.find()
         .then(employees => {
             const loggedInUser = req.user.username
             const role = req.user.role
             const newList = employees.filter(x => {
-                if (x.role === role) {
+                if (x.role.toLowerCase() == role.toLowerCase()) {
                     return x
                 }
             })
@@ -60,6 +61,21 @@ router.get('/employees', restricted, (req, res) => {
         })
         .catch(error => {
             res.status(500).json({ message: 'Failed to fetch users'})
+        })
+})
+
+router.post('/allemployees', (req,res) => {
+    let { password } = req
+    const defaultPassword = 'password123'
+    
+    console.log(req.body)
+    Users.find()
+        .then(employees => {
+            // console.log(req.body)
+                res.status(200).json(employees)
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'could not fetch employees'})
         })
 })
 
